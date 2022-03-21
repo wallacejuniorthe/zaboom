@@ -1,0 +1,13 @@
+  const renderItem = ({ item }) => {
+    return (
+      <TouchableOpacity onPress={() => console.log('poiio')} key={item.id}>
+        <View style={[{
+          flexDirection: "row"
+        }]} >
+          <View >
+            <Text>{item.id} {item.name}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
