@@ -8,6 +8,7 @@ import colors from '../constants/Colors'
 import {AuthService} from '../services/authService';
 import * as val from '../utils/validations';
 import LabelTextInput from '../components/forms/LabetlTextInput';
+import {messages} from '../constants/Message'
 
 export default function ForgetPasswordScreen({ navigation }: RootTabScreenProps<'ForgetPassword'>) {
 
@@ -16,7 +17,16 @@ export default function ForgetPasswordScreen({ navigation }: RootTabScreenProps<
   const [email, setEmail] = React.useState(null);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState(null);
   
-  const onLogin = ()=>{
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+    //  clearForm();
+    });
+    setEmail("teste@teste.com");
+  return unsubscribe;
+  }, [navigation]);
+  
+
+  const onLogin = async ()=>{
 
     let isFormValid = true;
     setEmailErrorMessage(null);
@@ -25,13 +35,18 @@ export default function ForgetPasswordScreen({ navigation }: RootTabScreenProps<
       setEmailErrorMessage("Email inválido");
       isFormValid = false;
     }
-    
+
     if(isFormValid){
-      var obj = {
-        email:email
-      };
-      console.log(obj);
+      const authService = new AuthService();
+      var result = await authService.resetPassword(email);
+      
+     if(!result.success){
+        setErrorMessage(messages.ERRO_REQUISICAO);
+      }else{
+        console.log(result.data);
+      }
     }
+
   };
 
   return(
@@ -40,7 +55,7 @@ export default function ForgetPasswordScreen({ navigation }: RootTabScreenProps<
         <Image source={require('../assets/images/logo.png')} style={styles.logo}/>
        
         <LabelTextInput placeholder="Email" 
-        setFunction={setEmail} errorMessage={emailErrorMessage}></LabelTextInput>
+        setFunction={setEmail} errorMessage={emailErrorMessage} value={email}></LabelTextInput>
 
         <TouchableOpacity style={defautStyles.loginBtn} onPress={()=>onLogin()}>
           <Text style={defautStyles.loginText}>Recuperar senha</Text>

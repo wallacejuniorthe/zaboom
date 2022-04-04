@@ -25,6 +25,7 @@ export default function RegisterScreen({ navigation }: RootTabScreenProps<'Regis
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState(null);
   const [confirmPassword, setConfirmPassword] = React.useState(null);
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = React.useState(null);
+
   const [valor, setValor] = React.useState(null);
   const [valorErrorMessage, setValorErrorMessage] = React.useState(null);
 

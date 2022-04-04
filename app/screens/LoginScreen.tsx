@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet,Button,TouchableOpacity,Image } from 'react-native';
+import { StyleSheet,Button,TouchableOpacity,Image, ActivityIndicator } from 'react-native';
 import { Text, View,TextInput } from '../components/Themed';
-import { RefreshTokenKey, RootTabScreenProps,StorageKey, TokenKey } from '../types';
-import * as SecureStore from 'expo-secure-store';
 import {DefaultStyles as defautStyles} from '../styles/styles'
 import colors from '../constants/Colors'
-import {AuthService} from '../services/authService';
 import * as val from '../utils/validations';
-import axios from 'axios';
 import LabelTextInput from '../components/forms/LabetlTextInput';
-import { useFocusEffect } from '@react-navigation/native';
+import Validation from '../components/forms/Validation';
+import TouchableButton from '../components/forms/TouchableButton';
+import { useAuth } from '../hooks/authContext';
 
 export default function LoginScreen({ navigation })  {
+  
+  const {user, loading,signIn} = useAuth();
+
 
   const [errorMessage, setErrorMessage] = React.useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [email, setEmail] = React.useState(null);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState(null);
   const [password, setPassword] = React.useState(null);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState(null);
   
-
   const clearForm = ()=>{
     setErrorMessage(null);
     setEmail(null);
@@ -29,10 +30,13 @@ export default function LoginScreen({ navigation })  {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-    //  clearForm();
+//       clearForm();
     });
     setEmail("teste@teste.com");
     setPassword("123456");
+
+
+
   return unsubscribe;
   }, [navigation]);
   
@@ -40,6 +44,10 @@ export default function LoginScreen({ navigation })  {
 
   const onLogin = async ()=>{
     
+    console.log(user);
+    console.log(loading);
+
+    setIsLoading(true);
     let isFormValid = true;
     setEmailErrorMessage(null);
     setPasswordErrorMessage(null);
@@ -56,23 +64,26 @@ export default function LoginScreen({ navigation })  {
     }
     
     if(isFormValid){
-      const authService = new AuthService();
-      var result = await authService.authenticateUser(email,password);
-      //console.log(result);
-      if(!result.success){
-        setErrorMessage("Usuário ou senha inválidos");
-      }else{
-        await SecureStore.deleteItemAsync(RefreshTokenKey);
-        await SecureStore.deleteItemAsync(TokenKey);
-        await SecureStore.setItemAsync(RefreshTokenKey,result.cookie);
-        await SecureStore.setItemAsync(TokenKey,JSON.stringify(result.data));
+      try{
+        var result = await signIn(email,password);
+//        var result = await authService.authenticateUser(email,password);
+        //const storagedUser = await AsyncStorage.getItemAsync(LoginKey);
 
-        SecureStore.getItemAsync(TokenKey).then((value)=>{
-          console.log(value);
-        });
+        //console.log(authService.isUserAuthenticated());
+/*
+        if(!result.success){
+          setErrorMessage(result.data);
+        }else{
+          console.log((await result).data)
+        }*/
+      }catch(error){
+        console.log(error);
 
+      }finally{
       }
     }
+    setIsLoading(false);
+
   };
 
   return(
@@ -80,20 +91,17 @@ export default function LoginScreen({ navigation })  {
     <View style={defautStyles.container}>
         <Image source={require('../assets/images/logo.png')} style={defautStyles.logo}/>
 
-        {errorMessage &&
-        <View style={defautStyles.errorMessageView}>
-            <Text style={defautStyles.errorMessage}>{errorMessage}</Text>
-        </View>
-        }
+        <Validation errorMessage={errorMessage}></Validation>
+
         <LabelTextInput placeholder="Email" 
         setFunction={setEmail} errorMessage={emailErrorMessage} value={email}></LabelTextInput>
         
         <LabelTextInput placeholder="Senha" 
         setFunction={setPassword} errorMessage={passwordErrorMessage} value={password} secureTextEntry></LabelTextInput>
 
-        <TouchableOpacity style={defautStyles.loginBtn} onPress={()=>onLogin()}>
-          <Text style={defautStyles.loginText}>Entrar</Text>
-        </TouchableOpacity>
+        <TouchableButton isLoading={isLoading} style={defautStyles.loginBtn} onPress={()=>onLogin()}
+          Text="Entrar" TextStyle={defautStyles.loginText}
+        ></TouchableButton>
 
         <TouchableOpacity onPress={()=>{
           navigation.navigate('ForgetPassword');
@@ -106,13 +114,18 @@ export default function LoginScreen({ navigation })  {
         }}>
           <Text style={defautStyles.loginText}>Faça seu cadastro</Text>
         </TouchableOpacity>
+        
 
       </View>
+
+        
+
+
+
   )
 
 }
 
 const styles = StyleSheet.create({
-  
 });
 

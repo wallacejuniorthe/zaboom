@@ -17,22 +17,40 @@ export const DefaultStyles = StyleSheet.create({
       height:100,
       width:250
     },
-    errorMessageView:{
-      marginTop:3,
-      borderColor:'red',
-      borderWidth:0.5,
+    errorMessage:{
+      color:'red'
+    },
+    validationMessageView:{
       width: elementsSize,
+    },
+    validationTextMessageView:{
+      marginTop:3,
+      borderWidth:0.5,
+      width: "100%",
       padding:10,
-      borderRadius:25,
+      borderRadius:25
+    },
+    validationErrorTextMessageView:{
+      borderColor:'red',
       backgroundColor:'white'
     },
-    errorMessage:{
+    validationSuccessTextMessageView:{
+      borderColor:'green',
+      backgroundColor:'white'
+    },
+    errorTextMessage:{
         marginTop:3,
         color:'red',
         paddingLeft:10,
         textAlign:'left'
     },
-    formField:{
+    successTextMessage:{
+      marginTop:3,
+      color:'green',
+      paddingLeft:10,
+      textAlign:'left'
+  },
+  formField:{
       width: elementsSize,
     },
     inputView:{
@@ -144,7 +162,24 @@ export const DefaultStyles = StyleSheet.create({
       modalText: {
         marginBottom: 15,
         textAlign: "center"
-      }
+      },
+      buttonTouchable: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        width: 240,
+        height: 70,
+        borderWidth: 1,
+        borderColor: "#666",
+        borderRadius: 10,
+      },
+      buttonTouchableText: {
+        color: "#fff",
+        fontWeight: "bold",
+        fontSize: 20
+      },
+    
     
     
   });

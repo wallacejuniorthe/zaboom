@@ -1,7 +1,7 @@
 
 
 export function isEmpty(value:string) {
-    return value && value.length>0?false:true;
+    return value && value!=null && value.length>0?false:true;
 } 
 
 export function isEmail(value:string,required:boolean) {
@@ -14,7 +14,7 @@ export function isEmail(value:string,required:boolean) {
         );
 } 
 
-export function isPasswordValid(value:string,minSize:number,maxSize:number,required:boolean) {
+export function isPasswordValid(value:string,minSize:number=6,maxSize:number=12,required:boolean=true) {
     
     if(required && isEmpty(value))
         return false;

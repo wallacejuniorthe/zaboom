@@ -3,13 +3,17 @@ import { StyleSheet,ScrollView,SafeAreaView,FlatList,TouchableOpacity,Image } fr
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
-import data from '../data/data.js';
+import {data} from '../data/data.js';
+import { useAuth } from '../hooks/authContext';
+import { apiGet } from '../services/apiService';
+import { ApiResponse } from '../types';
 
 export default function CouponScreen({ navigation }: RootTabScreenProps<'Coupon'>) {
 
+  const {signed,user, loading,signOut,incrementCounter} = useAuth();
   const [selectedId, setSelectedId] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
+
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("tabPress", () => {
@@ -19,7 +23,15 @@ export default function CouponScreen({ navigation }: RootTabScreenProps<'Coupon'
 
   const onRefresh = () => {
     setIsFetching(true);
-    console.log("Atualizando")
+    incrementCounter();
+/*    console.log("Atualizando")
+    apiGet('http://192.168.100.66:8080/teste/hello')
+    .then((res)=>{
+      console.log(res.data);
+    }).catch((error)=>{
+      console.log((error as ApiResponse));
+    });
+  */
     setIsFetching(false);
   };
 
@@ -32,7 +44,7 @@ export default function CouponScreen({ navigation }: RootTabScreenProps<'Coupon'
   };
 
   
-  //CouponDetail
+  //CouponDetailr
   const renderItem = ({ item }) => {
 
     return (

@@ -3,7 +3,7 @@ export const data = [
         id: "1",
         title: "First Item",
         partner: "Cacique Pneus",
-        description:"Desconto de 30% nos serviços de alinhamento e balanceamento",
+        description:"Desconto de 30% nos serviços de alinhamento e balanceamento, Desconto de 30% nos serviços de alinhamento e balanceamento, Desconto de 30% nos serviços de alinhamento e balanceamento",
         finishAt: "10/04/2021",
         pictureUrl:"https://images.ctfassets.net/yadj1kx9rmg0/wtrHxeu3zEoEce2MokCSi/cf6f68efdcf625fdc060607df0f3baef/quwowooybuqbl6ntboz3.jpg"
       },

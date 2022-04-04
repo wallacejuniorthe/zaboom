@@ -1,64 +1,88 @@
 import axios from 'axios';
 import {urls} from '../constants/Urls'
-import { ApiResponse, Nullable } from '../types';
+import { ApiResponse, LoginKey } from '../types';
 
-class AuthService  {
+const getCookie = (headers:any)=>{
+    let refreshToken:string = headers['set-cookie'][0];            
+    refreshToken = 
+    refreshToken = refreshToken.split('=')[1];
+    return refreshToken;
+};
 
-    authenticateUser = async (login: string, password: string) => {
+export async function authenticateUser(login: string, password: string):Promise<ApiResponse> {
+    
+    var result:ApiResponse = {};
+    
+    var obj ={
+        email:login,
+        password:password
+    };
 
-        var result = new ApiResponse();
-        var obj ={
-            email:login,
-            password:password
-        };
+    try{
+        const response = await axios.post(urls.AUTHENTICATE,obj);
+        result.success=true;
+        result.data=response.data;
+        result.cookie=getCookie(response.headers);
 
-        try{
-            const response = await axios.post(urls.AUTHENTICATE,obj);
-            result.success = true;
-            result.data = response.data;
-
-            var refreshToken:string = "";
-            try{
-                 refreshToken = response.headers['set-cookie'][0];            
-                 refreshToken = refreshToken.split(';')[0];
-                 refreshToken = refreshToken.split('=')[1];
-                 result.cookie = refreshToken;
-            }
-            catch(error){
-                result.success = false;
-                result.data = "Não foi possível acessar o cookie";
-            }
-        } catch(error){
-            result.success = false;
-            result.data = error.response.data;
-        }
-
-        return result;
+    } catch(error){
+        result.success = false;
+        result.data = error.response.data;
     }
 
-    registerUser = async (name: string, email:string,password: string,
-        confirmPassword: string):Promise<ApiResponse> => {
-
-        var result = new ApiResponse();
-        
-        var obj ={
-            name,email,password,confirmPassword
-        };
-        
-        try{
-            const response = await axios.post(urls.REGISTER_USER,obj);
-            result.success = true;
-            result.data = response.data;
-        } catch(error){
-            result.success = false;
-            result.data = error.response.data;
-        }
-        return result;
-    }
-
+    return result;
 }
 
+export async function registerUser(name: string, email:string,password: string,
+    confirmPassword: string):Promise<ApiResponse> {
 
-export  {
-    AuthService
-};
+    var result = new ApiResponse();
+    
+    var obj ={
+        name,email,password,confirmPassword
+    };
+    
+    try{
+        const response = await axios.post(urls.REGISTER_USER,obj);
+        result.success = true;
+        result.data = response.data;
+    } catch(error){
+        result.success = false;
+        result.data = error.response.data;
+    }
+    return result;
+}
+
+export async function resetPassword(email:string):Promise<ApiResponse> {
+
+    var result = new ApiResponse();
+    
+    var obj ={email};
+    
+    try{
+        const response = await axios.post(urls.FORGET_PASSWORD,obj);
+        result.success = true;
+        result.data = response.data;
+    } catch(error){
+        result.success = false;
+        result.data = error.response.data;
+    }
+    return result;
+}
+
+export async function changePassword(id:number,password:string,
+    newPassword:string):Promise<ApiResponse> {
+
+    var result = new ApiResponse();
+    
+    var obj ={id,password,newPassword,ConfirmNewPassword:newPassword};
+    
+    try{
+        const response = await axios.post(urls.CHANGE_PASSWORD,obj);
+        result.success = true;
+        result.data = response.data;
+    } catch(error){
+        result.success = false;
+        result.data = error.response.data;
+    }
+    return result;
+}

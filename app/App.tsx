@@ -8,6 +8,11 @@ import * as SecureStore from 'expo-secure-store';
 import LoginScreen from './screens/LoginScreen'
 import { StorageKey } from './types';
 import RegisterScreen from './screens/RegisterScreen';
+import Routes from './routes/index';
+import { NavigationContainer } from '@react-navigation/native';
+import { AuthProvider } from './hooks/authContext';
+import { navigationRef } from './navigation/RootNavigations';
+
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -30,22 +35,35 @@ export default function App() {
       logado = true;
     });
 
+    
+    return (
+      <NavigationContainer>
+        <AuthProvider>
+          <Routes/>
+        </AuthProvider>
+      </NavigationContainer>
+    );
+
+/*
     if(!logado)
     {
       return (
-        <SafeAreaProvider>
-          <Navigation colorScheme={"ligth"} />
+        <AuthContext.Provider value={authContext}>
+          <SafeAreaProvider>
+            <Navigation colorScheme={"ligth"} />
           </SafeAreaProvider>
+       </AuthContext.Provider>
       );
     }
     else{
       return (
-        <SafeAreaProvider>
-          <Navigation colorScheme={"ligth"} />
-          <StatusBar />
+        <AuthContext.Provider value={authContext}>
+          <SafeAreaProvider>
+            <Navigation colorScheme={"ligth"} />
           </SafeAreaProvider>
+       </AuthContext.Provider>
       );
 
-    }
+    }*/
   }
 }

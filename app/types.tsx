@@ -35,6 +35,7 @@ export type RootTabParamList = {
   Login: undefined;
   Register: undefined;
   ForgetPassword: undefined;
+  ChangePassword: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
@@ -44,16 +45,26 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
 
 export const StorageKey="jwt8479574";
 export const RefreshTokenKey="refreshTokenKey";
-export const TokenKey="tokenKey";
+export const LoginKey="tokenKey";
 
 export class ApiResponse {
   success: boolean | undefined;
   data: string | undefined;
-  cookie:string | undefined;
-
+  cookie?:string | undefined;
   constructor(){
     
   }
   
 };
 export type Nullable<T>  = T | null
+
+export interface ILogin {
+  token?: string;
+  refreshToken?: string;
+  user?: {
+    id:number,
+    name: string;
+    email: string;
+    role: string
+  };
+}

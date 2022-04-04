@@ -5,11 +5,12 @@ import { Text, View } from '../components/Themed';
 export default function CouponDetailScreen({ route, navigation }) {
 
   const [selectedId, setSelectedId] = useState(null);
-  const { item } = route.params;
+  const { itemId } = route.params;
 
   useEffect(() => {
+    console.log(itemId);
     navigation.setOptions({
-      title: item.partner,
+      title: itemId
     });
   });
 
@@ -20,8 +21,8 @@ export default function CouponDetailScreen({ route, navigation }) {
       <Text style={styles.title}>Cumpon</Text>
       <Text style={styles.title}>r eurwioruewr</Text>
       <Text style={styles.title}>Regras de utilização</Text>
-      <Text style={styles.title}>{item.id}</Text>
-      <Text style={styles.title}>Detalhes cupon {item.id}</Text>
+      <Text style={styles.title}></Text>
+      <Text style={styles.title}>Detalhes cupon </Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Button
   title="Learn More"
