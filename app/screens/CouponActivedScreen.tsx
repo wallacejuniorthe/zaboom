@@ -4,6 +4,10 @@ import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
 export default function CouponActivedScreen({ navigation }: RootTabScreenProps<'CouponActived'>) {
+
+  console.log('CouponActivedScreen '+ Date());
+
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Coupons Ativados</Text>

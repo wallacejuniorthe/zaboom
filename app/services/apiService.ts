@@ -3,19 +3,12 @@ import axios from 'axios'
 
 import { Alert } from 'react-native'
 import {urls} from '../constants/Urls'
-import { ApiResponse, ILogin, LoginKey } from '../types';
-import { createNavigationContainerRef } from '@react-navigation/native';
-import * as RootNavigation from '../navigation/rootNavigations';
+import { ApiResponse, ILogin, LoginKey,RefreshTokenKey } from '../types';
+import { refreshingToken } from '../services/authService'
+import { setLogin, setLogout } from './TokenService';
 
 
 
-async function getUser() {
-  try {
-    return await AsyncStorage.getItem(LoginKey);
-  } catch (e) {
-    throw e;
-  }
-}
 const api = axios.create({
   baseURL: urls.BASEURL,
   headers: {
@@ -24,22 +17,13 @@ const api = axios.create({
   }
 });
 
-
-
 api.interceptors.response.use(
   response => {
-
-    // Do something with response data
-
     return response
   },
-  error => {
-
-    // Do something with response error
-
-    // You can even test for a response code
-    // and try a new request before rejecting the promise
-
+  async error => {
+    var requestConfig = error.config
+    //console.log(requestConfig);
     if (
       error.request._hasError === true &&
       error.request._response.includes('connect')
@@ -51,71 +35,90 @@ api.interceptors.response.use(
         { cancelable: false },
       )
     }
+    
+    if (error.response.status === 401 && !requestConfig._retry) {
+//      console.log('token expirado '+requestConfig._retry);
+      requestConfig._retry = true;
+//      console.log('token expirado '+requestConfig._retry);
+      
+      try{
+        const refreshToken = await AsyncStorage.getItem(RefreshTokenKey);
+        const rs = await refreshingToken(refreshToken);
+        if(rs.success)
+        {
+          await setLogin(rs);
+          return api(requestConfig);
+        }
 
-    if (error.response.status === 401) {
-      const requestConfig = error.config
-      console.log('token expirado');
-      AsyncStorage.clear()
-      .then(result=>{
-        
-      });
-
-      return axios(requestConfig)
+      } catch(error){
+        console.log('Error: '+error);
+      }
+      await setLogout();
+//      return api(requestConfig)
     }
 
     return Promise.reject(error)
   },
 )
 
+
 api.interceptors.request.use(
-  config => {
-    console.log('fazendo requiestr');
-    RootNavigation.navigate('Root',null);
-
-
-
-    return getUser()
-      .then(user => {
-        if(user)
-        {
-          let token = (JSON.parse(user) as ILogin).token;
-       
-          if (user && token)
-            config.headers.Authorization = `Bearer ${token}`
-          
-          return Promise.resolve(config)
-        
-        } else{
-
-        }
-      })
-      .catch(error => {
-        console.log(error)
-        return Promise.resolve(config)
-      })
+  async config => {
+    try{
+      const user = await AsyncStorage.getItem(LoginKey);
+      let token = (JSON.parse(user) as ILogin).token;
+      if (user && token){
+        //console.log('token...'+token);
+        config.headers.Authorization = `Bearer ${token}`
+      }
+      return Promise.resolve(config);
+    } catch(error){
+      return Promise.resolve(config)
+    }
   },
   error => {
     return Promise.reject(error)
   },
 )
 
-
 export async function apiGet(url:string):Promise<ApiResponse>{
 
-  var result:ApiResponse = {};
-  
-  try {
-      const response = await api.get(url);
-      result.success=true;
-      result.data=response.data;
-  } catch(error){
-      result.success = false;
-      result.data = error.response.data;
-      return Promise.reject(result);
-  } finally {
+  return new Promise((resolve,reject) =>{
+    
+    var result:ApiResponse = {};
 
-  };
- 
-  return Promise.resolve(result);
+    api.get(url)
+    .then(response =>{
+        result.success=true;
+        result.data=response.data;
+        resolve(result);
+      })
+    .catch(error=>{
+        result.success = false;
+        result.data = error.response.data;
+        reject(result);
+    });
+  });
+}
+
+
+export async function apiPost(url:string,params):Promise<ApiResponse>{
+
+  return new Promise((resolve,reject) =>{
+    
+    var result:ApiResponse = {};
+
+    api.get(url,params)
+    .then(response =>{
+        result.success=true;
+        result.data=response.data;
+        resolve(result);
+      })
+    .catch(error=>{
+        result.success = false;
+        result.data = error.response.data;
+        reject(result);
+    });
+  });
 }
 

@@ -38,6 +38,10 @@ export const DefaultStyles = StyleSheet.create({
       borderColor:'green',
       backgroundColor:'white'
     },
+    validationAlertTextMessageView:{
+      borderColor:'yellow',
+      backgroundColor:'white'
+    },
     errorTextMessage:{
         marginTop:3,
         color:'red',

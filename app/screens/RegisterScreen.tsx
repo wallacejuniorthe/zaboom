@@ -5,7 +5,7 @@ import { RootTabScreenProps, StorageKey } from '../types';
 import * as SecureStore from 'expo-secure-store';
 import { DefaultStyles as defautStyles } from '../styles/styles'
 import colors from '../constants/Colors'
-import { AuthService } from '../services/authService';
+import { registerUser } from '../services/authService';
 import * as val from '../utils/validations';
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import { sports } from '../data/data'
@@ -74,9 +74,8 @@ export default function RegisterScreen({ navigation }: RootTabScreenProps<'Regis
       setValorErrorMessage("Selecione o condomínio");
       isFormValid = false;
     }*/
-    const authService = new AuthService();
     if (isFormValid) {
-      var result =  await authService.registerUser(name,email,password,confirmPassword);
+      var result =  await registerUser(name,email,password,confirmPassword);
       if(!result.success) {
         setErrorMessage('iouiououuiouio');
       } else {

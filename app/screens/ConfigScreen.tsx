@@ -6,12 +6,15 @@ import { RootTabScreenProps } from '../types';
 
 export default function ConfigScreen({ navigation }: RootTabScreenProps<'Config'>) {
 
+  const {user, loading,signOut} = useAuth();
+
   const onChangePassword = ()=>{
     navigation.navigate('ChangePassword');
   };
 
-  const {user, loading,signOut} = useAuth();
-  console.log(user);
+  
+  console.log('ConfigScreen '+ Date());
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={()=>onChangePassword()}  key={0}  style={styles.item} > 

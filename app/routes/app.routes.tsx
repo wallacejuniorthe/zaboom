@@ -56,7 +56,8 @@ function BottomTabNavigator() {
         component={ConfigScreen}
         options={{
           title: 'Perfil',
-          tabBarIcon: ({ color }) => <TabBarIcon name="adjust" color={color} />
+          tabBarIcon: ({ color }) => <TabBarIcon name="adjust" color={color} />,
+          unmountOnBlur:true
           
         }}
       />

@@ -28,14 +28,6 @@ export default function App() {
     return null;
   } else {
     
-    let logado = false;
-
-    SecureStore.getItemAsync(StorageKey)
-    .then(()=>{
-      logado = true;
-    });
-
-    
     return (
       <NavigationContainer>
         <AuthProvider>
@@ -43,27 +35,5 @@ export default function App() {
         </AuthProvider>
       </NavigationContainer>
     );
-
-/*
-    if(!logado)
-    {
-      return (
-        <AuthContext.Provider value={authContext}>
-          <SafeAreaProvider>
-            <Navigation colorScheme={"ligth"} />
-          </SafeAreaProvider>
-       </AuthContext.Provider>
-      );
-    }
-    else{
-      return (
-        <AuthContext.Provider value={authContext}>
-          <SafeAreaProvider>
-            <Navigation colorScheme={"ligth"} />
-          </SafeAreaProvider>
-       </AuthContext.Provider>
-      );
-
-    }*/
   }
 }

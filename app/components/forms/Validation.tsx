@@ -6,6 +6,7 @@ export default function Validation(props){
 
   const errorMessage = props.errorMessage;
   const successMessage = props.successMessage;
+  const alertMessage = props.alertMessage;
   
   return(
     <View  style={defautStyles.validationMessageView}> 
@@ -17,6 +18,11 @@ export default function Validation(props){
       {successMessage &&
       <View style={[defautStyles.validationTextMessageView,defautStyles.validationSuccessTextMessageView]}>
             <Text style={defautStyles.successTextMessage}>{successMessage}</Text>
+        </View>
+      }
+      {alertMessage &&
+      <View style={[defautStyles.validationTextMessageView,defautStyles.validationAlertTextMessageView]}>
+            <Text style={defautStyles.alertTextMessage}>{alertMessage}</Text>
         </View>
       }
     </View>

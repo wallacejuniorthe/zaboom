@@ -8,20 +8,29 @@ import LabelTextInput from '../components/forms/LabetlTextInput';
 import Validation from '../components/forms/Validation';
 import TouchableButton from '../components/forms/TouchableButton';
 import { useAuth } from '../hooks/authContext';
+import {authenticateUser} from '../services/authService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LoginKey, RefreshTokenKey } from '../types';
+import { setLogin } from '../services/TokenService';
 
-export default function LoginScreen({ navigation })  {
+export default function LoginScreen({ route,navigation })  {
   
   const {user, loading,signIn} = useAuth();
 
 
-  const [errorMessage, setErrorMessage] = React.useState(null);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(null);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const [email, setEmail] = React.useState(null);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState(null);
   const [password, setPassword] = React.useState(null);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState(null);
-  
+/*
+
+  };
+  */
   const clearForm = ()=>{
     setErrorMessage(null);
     setEmail(null);
@@ -30,7 +39,12 @@ export default function LoginScreen({ navigation })  {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-//       clearForm();
+      try{
+        const { successMessageParam } = route.params;
+        setSuccessMessage(successMessageParam);
+      } catch{
+      };
+      AsyncStorage.clear().then().catch();
     });
     setEmail("teste@teste.com");
     setPassword("123456");
@@ -43,9 +57,6 @@ export default function LoginScreen({ navigation })  {
 
 
   const onLogin = async ()=>{
-    
-    console.log(user);
-    console.log(loading);
 
     setIsLoading(true);
     let isFormValid = true;
@@ -65,20 +76,11 @@ export default function LoginScreen({ navigation })  {
     
     if(isFormValid){
       try{
-        var result = await signIn(email,password);
-//        var result = await authService.authenticateUser(email,password);
-        //const storagedUser = await AsyncStorage.getItemAsync(LoginKey);
-
-        //console.log(authService.isUserAuthenticated());
-/*
-        if(!result.success){
-          setErrorMessage(result.data);
-        }else{
-          console.log((await result).data)
-        }*/
+        var response = await authenticateUser(email,password);
+        setLogin(response);
+        signIn();
       }catch(error){
-        console.log(error);
-
+        setErrorMessage(error.data.message);
       }finally{
       }
     }
@@ -91,7 +93,7 @@ export default function LoginScreen({ navigation })  {
     <View style={defautStyles.container}>
         <Image source={require('../assets/images/logo.png')} style={defautStyles.logo}/>
 
-        <Validation errorMessage={errorMessage}></Validation>
+        <Validation errorMessage={errorMessage} successMessage={successMessage}></Validation>
 
         <LabelTextInput placeholder="Email" 
         setFunction={setEmail} errorMessage={emailErrorMessage} value={email}></LabelTextInput>

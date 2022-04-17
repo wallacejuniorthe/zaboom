@@ -13,97 +13,78 @@ interface User {
 }*/
 
 interface AuthContextData {
-  signed: boolean;
+  signed:boolean;
   user: ILogin | null;
   loading: boolean;
-  signIn(login: string, password: string):Promise<void>;
+  signIn():Promise<void>;
   signOut(): void;
-  getApiRequest():AxiosInstance;
-  incrementCounter():void;
+  checkAuth():void;
 }
+
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider = ({children}:Props) => {
 
+  const [signed, setSigned] = useState<boolean>(false);
   const [user, setUser] = useState<ILogin | null>(null);
   const [loading, setLoading] = useState(true);
-  const [counter, setCounter] = useState(0);
 
 
-  useEffect(() => {
-    
-    async function loadStorageData() {
+  async function loadStorageData() {
 
+    try{
       const storagedUser = await AsyncStorage.getItem(LoginKey);
       const storagedRefeshToken = await AsyncStorage.getItem(RefreshTokenKey);
 
       if (storagedUser && storagedRefeshToken) {
         const login:ILogin = storagedUser as ILogin;
-        const decoded = jwtDecode<JwtPayload>(login.token);
-        
-        if (Date.now() <= decoded.exp * 1000) {
-          setUser(login);
-          console.log('Token ok');
-        }
-        console.log('Não logado');
+        setUser(login);
       }
-      setLoading(false);
+
+    } catch(error){
+      setUser(null);
+      setSigned(false);
+      await AsyncStorage.clear();
     }
+  }
+
+  useEffect(() => {
+    setLoading(true);
     loadStorageData();
     setLoading(false);
+
+    console.log('useEffect(() => { '+Date());
   });
 
 
-  async function signIn(login: string, password: string):Promise<void> {
-
-//    console.log('Entrando.....sing');
-
-    try{
-      var response = await authservice.authenticateUser(login,password);
-      
-      await AsyncStorage.clear();
-
-      var loginResponse:ILogin = {
-        token:response.data.jwtToken,
-        user:{
-          id:response.data.id,
-          name:response.data.name,
-          email:response.data.email,
-          role:response.data.role,
-        }
-      };
-
-      await AsyncStorage.setItem(LoginKey,JSON.stringify(loginResponse));
-      await AsyncStorage.setItem(RefreshTokenKey,response.cookie);
-      setUser(loginResponse);
-
-    } catch(error){
-        console.log(error);
-    }
-
+  async function signIn():Promise<void> {
+    setSigned(true);
   }
 
-  function incrementCounter(){
-    if(counter>4)
-    {
-      signOut();
-    }
-    setCounter(counter+1);
-
-  }
   async function signOut() {
-    await AsyncStorage.clear();
-    setUser(null);
+    try{
+      await AsyncStorage.clear();
+      setUser(null);
+      setSigned(false);
+    } catch(error){
+      
+    }
+
   }
 
-    
+  async function checkAuth() {
+    console.log('checkAuth()'+Date());
+    let user = await AsyncStorage.getItem(LoginKey);
+    let resultado:boolean = user?true:false;
+    setSigned(resultado);
+    console.log('signed '+resultado+ Date());
+  }
+
+
   return (
     <AuthContext.Provider
-              value={{signed: !!user, user, loading,signIn,signOut,incrementCounter}}>
-               <View style={{marginTop:70}}>
-                 <Text>{counter}</Text>
-               </View>
+              value={{signed,user, loading,signIn,signOut,checkAuth}}>
     {children}
   </AuthContext.Provider>
   );

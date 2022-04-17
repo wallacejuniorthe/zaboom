@@ -10,29 +10,32 @@ import { ApiResponse } from '../types';
 
 export default function CouponScreen({ navigation }: RootTabScreenProps<'Coupon'>) {
 
-  const {signed,user, loading,signOut,incrementCounter} = useAuth();
+  const {signed,user, loading,signOut,incrementCounter,checkAuth} = useAuth();
   const [selectedId, setSelectedId] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("tabPress", () => {
+      checkAuth();
       console.log('1');
     });
-  });
+    console.log('12');
+
+    });
 
   const onRefresh = () => {
-    setIsFetching(true);
-    incrementCounter();
-/*    console.log("Atualizando")
+    //setIsFetching(true);
+    checkAuth();
+
     apiGet('http://192.168.100.66:8080/teste/hello')
-    .then((res)=>{
-      console.log(res.data);
+    .then((res1)=>{
+      console.log(res1.data);
     }).catch((error)=>{
-      console.log((error as ApiResponse));
+      //console.log(error);
     });
-  */
-    setIsFetching(false);
+
+    //setIsFetching(false);
   };
 
   const selectItem = (item) => {

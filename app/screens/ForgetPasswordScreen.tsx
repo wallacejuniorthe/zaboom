@@ -5,21 +5,23 @@ import { RootTabScreenProps,StorageKey } from '../types';
 import * as SecureStore from 'expo-secure-store';
 import {DefaultStyles as defautStyles} from '../styles/styles'
 import colors from '../constants/Colors'
-import {AuthService} from '../services/authService';
+import {requestResetPassword} from '../services/authService';
 import * as val from '../utils/validations';
 import LabelTextInput from '../components/forms/LabetlTextInput';
 import {messages} from '../constants/Message'
+import Validation from '../components/forms/Validation';
 
 export default function ForgetPasswordScreen({ navigation }: RootTabScreenProps<'ForgetPassword'>) {
 
-  const [errorMessage, setErrorMessage] = React.useState(null);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(null);
 
-  const [email, setEmail] = React.useState(null);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState(null);
+  const [email, setEmail] = React.useState<string | null>(null);
+  const [emailErrorMessage, setEmailErrorMessage] = React.useState<string | null>(null);
   
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-    //  clearForm();
+      setSuccessMessage(null);
     });
     setEmail("teste@teste.com");
   return unsubscribe;
@@ -37,30 +39,29 @@ export default function ForgetPasswordScreen({ navigation }: RootTabScreenProps<
     }
 
     if(isFormValid){
-      const authService = new AuthService();
-      var result = await authService.resetPassword(email);
-      
-     if(!result.success){
+      requestResetPassword(email).then((result)=>{
+        navigation.navigate("ResetPassword");
+      }).catch(()=>{
         setErrorMessage(messages.ERRO_REQUISICAO);
-      }else{
-        console.log(result.data);
-      }
+      });
     }
-
   };
 
   return(
     
     <View style={defautStyles.container}>
         <Image source={require('../assets/images/logo.png')} style={styles.logo}/>
-       
-        <LabelTextInput placeholder="Email" 
+
+        <Validation errorMessage={errorMessage} successMessage={successMessage}></Validation>
+
+        <LabelTextInput placeholder="Informe seu e-mail" 
         setFunction={setEmail} errorMessage={emailErrorMessage} value={email}></LabelTextInput>
 
-        <TouchableOpacity style={defautStyles.loginBtn} onPress={()=>onLogin()}>
-          <Text style={defautStyles.loginText}>Recuperar senha</Text>
-        </TouchableOpacity>
-        
+        {!successMessage &&
+          <TouchableOpacity style={defautStyles.loginBtn} onPress={()=>onLogin()}>
+            <Text style={defautStyles.loginText}>Recuperar senha</Text>
+          </TouchableOpacity>
+        }
         <TouchableOpacity style={defautStyles.loginBtn} onPress={()=>{
           navigation.goBack();
         }}>

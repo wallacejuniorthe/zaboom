@@ -2,11 +2,9 @@ import {View, ActivityIndicator} from 'react-native';
 import {useAuth} from '../hooks/authContext';
 import AuthRoutes from './auth.routes';
 import AppRoutes from './app.routes';
-import React from 'react';
 
 const Routes = () => {
-  const {signed, loading} = useAuth();
-  console.log('routes...');
+  const {signed, loading,checkAuth} = useAuth();
 
   if (loading) {
     return (
@@ -15,6 +13,9 @@ const Routes = () => {
       </View>
     );
   }
+
+  console.log('signed ');
+  checkAuth();
   return signed ? <AppRoutes /> : <AuthRoutes />;
 };
 

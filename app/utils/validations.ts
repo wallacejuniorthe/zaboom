@@ -14,10 +14,14 @@ export function isEmail(value:string,required:boolean) {
         );
 } 
 
-export function isPasswordValid(value:string,minSize:number=6,maxSize:number=12,required:boolean=true) {
+function isPasswordValidLength(value:string,minSize:number=6,maxSize:number=12,required:boolean=true) {
     
     if(required && isEmpty(value))
         return false;
     value = value.trim();
     return value.length>=minSize && value.length<=maxSize;
+} 
+
+export function isPasswordValid(value:string) {
+    return isPasswordValidLength(value,6,12,true);
 } 

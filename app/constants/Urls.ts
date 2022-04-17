@@ -5,6 +5,8 @@ export const urls = {
   AUTHENTICATE:`${BASEURL}/accounts/authenticate`,
   REGISTER_USER:`${BASEURL}/accounts/register`,
   FORGET_PASSWORD:`${BASEURL}/accounts/forgot-password`,
-  CHANGE_PASSWORD:`${BASEURL}/accounts/change-password`
+  RESET_PASSWORD:`${BASEURL}/accounts/reset-password`,
+  CHANGE_PASSWORD:`${BASEURL}/accounts/change-password`,
+  REFRESH_TOKEN:`${BASEURL}/accounts/refresh-token`
   
 };
