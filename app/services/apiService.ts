@@ -108,7 +108,7 @@ export async function apiPost(url:string,params):Promise<ApiResponse>{
     
     var result:ApiResponse = {};
 
-    api.get(url,params)
+    api.post(url,params)
     .then(response =>{
         result.success=true;
         result.data=response.data;
@@ -117,6 +117,7 @@ export async function apiPost(url:string,params):Promise<ApiResponse>{
     .catch(error=>{
         result.success = false;
         result.data = error.response.data;
+        console.log(error.response);
         reject(result);
     });
   });

@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet,ScrollView, TouchableOpacity } from 'react-native';
 import { Text, View } from '../components/Themed';
 import { useAuth } from '../hooks/authContext';
 import {DefaultStyles as defautStyles} from '../styles/styles'
 import LabelTextInput from '../components/forms/LabetlTextInput';
 import * as val from '../utils/validations';
-import { changePassword} from '../services/authService';
 import Validation from '../components/forms/Validation';
-
+import { RootTabScreenProps } from '../types';
+import { apiPost } from '../services/apiService';
+import { urls } from '../constants/Urls';
 
 export default function ChangePasswordScreen({ navigation }: RootTabScreenProps<'ChangePassword'>) {
 
-  const {user} = useAuth();
+  const {user,checkAuth} = useAuth();
 
-  const [errorMessage, setErrorMessage] = React.useState(null);
-  const [succesMessage, setSuccesMessage] = React.useState(null);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(null);
+
   const [password, setPassword] = React.useState(null);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState(null);
   const [newPassword, setNewPassword] = React.useState(null);
@@ -22,13 +24,22 @@ export default function ChangePasswordScreen({ navigation }: RootTabScreenProps<
   const [confirmNewPassword, setConfirmNewPassword] = React.useState(null);
   const [confirmNewPasswordErrorMessage, setconfirmNewPasswordErrorMessage] = React.useState(null);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      checkAuth();
+      setPassword("123456");
+      setNewPassword("123456");
+      setConfirmNewPassword("123456");
+    });
+    return unsubscribe;
+  }, [navigation]);
+
 
   const onSubmit = async () => {
-    
-    console.log(JSON.parse(user).user.email);
-    setSuccesMessage(null);
-    setErrorMessage(null);
+
     let isFormValid = true;
+    setSuccessMessage(null);
+    setErrorMessage(null);
     setPasswordErrorMessage(null);
     setNewPasswordErrorMessage(null);
     setconfirmNewPasswordErrorMessage(null);
@@ -49,12 +60,17 @@ export default function ChangePasswordScreen({ navigation }: RootTabScreenProps<
     }
 
     if (isFormValid) {
-      var result =  await changePassword(JSON.parse(user).user.id,password,newPassword);
-      if(!result.success) {
-        setErrorMessage(result.data);
-      } else {
-        setSuccesMessage("Senha alterada com sucesso");
-      }
+      const id = JSON.parse(user).user.id;
+      var obj ={id,password,newPassword,confirmNewPassword};
+      
+      apiPost(urls.CHANGE_PASSWORD,obj)
+      .then((result)=>{
+        console.log("opiuopiopiopiop");
+        setSuccessMessage("Senha alterada com sucesso");
+      })
+      .catch((result)=>{
+        setErrorMessage(result.data.message);
+      })
     }
 
   };
@@ -62,7 +78,7 @@ export default function ChangePasswordScreen({ navigation }: RootTabScreenProps<
   return (
     <View style={defautStyles.container}>
 
-      <Validation errorMessage={errorMessage} succesMessage={setSuccesMessage}></Validation>
+      <Validation errorMessage={errorMessage} successMessage={successMessage}></Validation>
 
       <LabelTextInput placeholder="Senha atual" secureTextEntry
         setFunction={setPassword} errorMessage={passwordErrorMessage} value={password}></LabelTextInput>

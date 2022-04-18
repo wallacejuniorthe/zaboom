@@ -10,35 +10,37 @@ import * as val from '../utils/validations';
 import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import { sports } from '../data/data'
 import LabelTextInput from '../components/forms/LabetlTextInput';
+import Validation from '../components/forms/Validation';
 
 export default function RegisterScreen({ navigation }: RootTabScreenProps<'Register'>) {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [errorMessage, setErrorMessage] = React.useState(null);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
-  const [name, setName] = React.useState(null);
-  const [nameErrorMessage, setNameErrorMessage] = React.useState(null);
-  const [email, setEmail] = React.useState(null);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState(null);
-  const [password, setPassword] = React.useState(null);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState(null);
-  const [confirmPassword, setConfirmPassword] = React.useState(null);
-  const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = React.useState(null);
+  const [name, setName] = React.useState<string | null>(null);
+  const [nameErrorMessage, setNameErrorMessage] = React.useState<string | null>(null);
+  const [email, setEmail] = React.useState<string | null>(null);
+  const [emailErrorMessage, setEmailErrorMessage] = React.useState<string | null>(null);
+  const [phone, setPhone] = React.useState<string | null>(null);
+  const [phoneErrorMessage, setPhoneErrorMessage] = React.useState<string | null>(null);
+  const [password, setPassword] = React.useState<string | null>(null);
+  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState<string | null>(null);
+  const [confirmPassword, setConfirmPassword] = React.useState<string | null>(null);
+  const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = React.useState<string | null>(null);
 
-  const [valor, setValor] = React.useState(null);
-  const [valorErrorMessage, setValorErrorMessage] = React.useState(null);
+  const [local, setLocal] = React.useState<string | null>(null);
+  const [localErrorMessage, setLocalErrorMessage] = React.useState<string | null>(null);
 
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       setName("Wallace Junior");
       setEmail("teste@teste.com");
+      setPhone("(86)994043202");
       setPassword("123456");
       setConfirmPassword("123456");
     });
-//    console.log('execitou111111');
-
     return unsubscribe;
   }, [navigation]);
   
@@ -48,40 +50,54 @@ export default function RegisterScreen({ navigation }: RootTabScreenProps<'Regis
     setNameErrorMessage(null);
     setEmailErrorMessage(null);
     setPasswordErrorMessage(null);
+    setPhoneErrorMessage(null)
     setConfirmPasswordErrorMessage(null);
-    setValorErrorMessage(null);
+    setLocalErrorMessage(null);
 
     if (val.isEmpty(name)) {
-      setNameErrorMessage("Nome inválido");
+      setNameErrorMessage("Informe seu nome");
       isFormValid = false;
     }
 
     if (!val.isEmail(email, true)) {
-      setEmailErrorMessage("Email inválido");
+      setEmailErrorMessage("Informe um email válido");
       isFormValid = false;
     }
 
-    if (!val.isPasswordValid(password, 6, 12, true)) {
-      setPasswordErrorMessage("Senha inválido");
+    if (val.isEmpty(phone)) {
+      setPhoneErrorMessage("Informe um número de celular válido");
       isFormValid = false;
     }
-    if (!val.isPasswordValid(confirmPassword, 6, 12, true)) {
+
+    if (!val.isPasswordValid(password)) {
+      setPasswordErrorMessage("Informe sua senha (6 a 12 caracteres)");
+      isFormValid = false;
+    }
+
+    if (!val.isPasswordValid(confirmPassword)) {
       setConfirmPasswordErrorMessage("Confirme sua senha");
       isFormValid = false;
     }
-/*
-    if (!valor) {
-      setValorErrorMessage("Selecione o condomínio");
-      isFormValid = false;
-    }*/
-    if (isFormValid) {
-      var result =  await registerUser(name,email,password,confirmPassword);
-      if(!result.success) {
-        setErrorMessage('iouiououuiouio');
-      } else {
-        navigation.navigate('Registered',{name:result.data.name, email: result.data.email});
-      }
 
+    if (password!==confirmPassword) {
+      setConfirmPasswordErrorMessage("Senhas informadas não coincidem");
+      isFormValid = false;
+    }
+
+    if (val.isEmpty(local, true)) {
+      setLocalErrorMessage("Selecione o local que mora");
+      isFormValid = false;
+    }
+
+    if (isFormValid) {
+      console.log('iiiiioo');
+      registerUser(name as string,email  as string,phone as string,password  as string,confirmPassword  as string)
+      .then((result)=>{
+        navigation.navigate("Registered",{ id:result.data.id, name:result.data.name});
+      })
+      .catch((result)=>{
+        setErrorMessage(result.data.message);
+      });
     }
   };
 
@@ -91,11 +107,7 @@ export default function RegisterScreen({ navigation }: RootTabScreenProps<'Regis
 
       <Image source={require('../assets/images/logo.png')} style={styles.logo} />
 
-      {errorMessage &&
-        <View style={defautStyles.errorMessageView}>
-            <Text style={defautStyles.errorMessage}>{errorMessage}</Text>
-        </View>
-        }
+      <Validation errorMessage={errorMessage} ></Validation>
 
       <LabelTextInput placeholder="Nome" 
         setFunction={setName} errorMessage={nameErrorMessage} value={name}></LabelTextInput>
@@ -103,7 +115,10 @@ export default function RegisterScreen({ navigation }: RootTabScreenProps<'Regis
       <LabelTextInput placeholder="Email" 
         setFunction={setEmail} errorMessage={emailErrorMessage} value={email}></LabelTextInput>
       
-      <LabelTextInput placeholder="Senha" secureTextEntry
+      <LabelTextInput placeholder="Celular" 
+        setFunction={setPhone} errorMessage={phoneErrorMessage} value={phone}></LabelTextInput>
+      
+      <LabelTextInput placeholder="Senha (6 a 12 caracteres)" secureTextEntry
         setFunction={setPassword} errorMessage={passwordErrorMessage} value={password}></LabelTextInput>
 
       <LabelTextInput placeholder="Senha" secureTextEntry
@@ -112,18 +127,18 @@ export default function RegisterScreen({ navigation }: RootTabScreenProps<'Regis
       <View style={defautStyles.formField}>
         <View style={defautStyles.inputView} >
           <RNPickerSelect
-            placeholder={{}}
+            placeholder={{label:"Selecione o local que você mora"}}
             items={sports}
             onValueChange={value => {
-              setValor(value);
+              setLocal(value);
             }}
             InputAccessoryView={() => null}
-            style={defautStyles}
-            value={valor}
+            style={defautStyles.pickerSelect}
+            value={local}
           />
         </View>
-        {valorErrorMessage &&
-          <Text style={defautStyles.errorMessage}>{valorErrorMessage}</Text>
+        {localErrorMessage &&
+          <Text style={defautStyles.errorMessage}>{localErrorMessage}</Text>
         }
       </View>
       <TouchableOpacity style={defautStyles.loginBtn} onPress={() => onLogin()}>

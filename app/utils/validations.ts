@@ -1,10 +1,10 @@
 
 
-export function isEmpty(value:string) {
+export function isEmpty(value:string | null) {
     return value && value!=null && value.length>0?false:true;
 } 
 
-export function isEmail(value:string,required:boolean) {
+export function isEmail(value:string | null,required:boolean=true) {
     
     if(required && isEmpty(value))
         return false;
@@ -22,6 +22,6 @@ function isPasswordValidLength(value:string,minSize:number=6,maxSize:number=12,r
     return value.length>=minSize && value.length<=maxSize;
 } 
 
-export function isPasswordValid(value:string) {
+export function isPasswordValid(value:string | null) {
     return isPasswordValidLength(value,6,12,true);
 } 

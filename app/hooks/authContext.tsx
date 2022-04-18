@@ -1,16 +1,6 @@
 import {createContext, useState, useEffect, useContext, Props} from 'react';
-import * as authservice from '../services/authService';
-import { ApiResponse, ILogin, LoginKey, RefreshTokenKey } from '../types';
+import { ILogin, LoginKey, RefreshTokenKey } from '../types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AxiosInstance } from 'axios';
-import jwtDecode, { JwtPayload } from 'jwt-decode';
-import { View,Text } from 'react-native';
-
-/*
-interface User {
-  name: string;
-  email: string;
-}*/
 
 interface AuthContextData {
   signed:boolean;
@@ -64,11 +54,11 @@ const AuthProvider = ({children}:Props) => {
 
   async function signOut() {
     try{
-      await AsyncStorage.clear();
       setUser(null);
       setSigned(false);
+      await AsyncStorage.clear();
     } catch(error){
-      
+     
     }
 
   }
@@ -80,7 +70,6 @@ const AuthProvider = ({children}:Props) => {
     setSigned(resultado);
     console.log('signed '+resultado+ Date());
   }
-
 
   return (
     <AuthContext.Provider

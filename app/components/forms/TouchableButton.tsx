@@ -6,9 +6,10 @@ export default function TouchableButton(props){
 
   return(
 
-    <TouchableOpacity disabled={props.isLoading} {...props}>
+    <TouchableOpacity disabled={props.isLoading || props.disabledButton} {...props}
+    >
 
-    <View>
+    <View >
       {props.isLoading && <ActivityIndicator size="small" color="yellow" />}
       <Text style={props.TextStyle}>
         {props.isLoading ? "Processando" : props.Text}

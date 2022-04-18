@@ -68,8 +68,11 @@ export default function ResetPasswordScreen({ navigation }: RootTabScreenProps<'
 
 
     if(isFormValid){
-      resetPassword(code,password,confirmPassword).then((result)=>{
-        navigation.navigate("Login",{successMessageParam:result.data.message});
+      resetPassword(code as string,password as string,confirmPassword as string).then((result)=>{
+        navigation.navigate("Login",{
+          successMessageParam:result.data.message
+        });
+
       }).catch((result)=>{ 
         setErrorMessage(result.data.message);
       });

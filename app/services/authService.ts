@@ -22,7 +22,9 @@ export async function authenticateUser(login: string, password: string):Promise<
     try{
         const response = await axios.post(urls.AUTHENTICATE,obj);
         result.data=response.data;
-        result.cookie=getCookie(response.headers);
+        if(result.data.isVerified){
+            result.cookie=getCookie(response.headers);
+        }
     } catch(error){
         result.success = false;
         result.data = error.response.data;
@@ -55,24 +57,20 @@ export async function refreshingToken(refreshToken:string):Promise<ApiResponse> 
 }
 
 
-export async function registerUser(name: string, email:string,password: string,
+export async function registerUser(name: string, email:string,phone1:string,password: string,
     confirmPassword: string):Promise<ApiResponse> {
 
-    var result = new ApiResponse();
-    
-    var obj ={
-        name,email,password,confirmPassword
-    };
+    var result:ApiResponse = {};
+    var obj ={name,email,phone1,password,confirmPassword};
     
     try{
         const response = await axios.post(urls.REGISTER_USER,obj);
-        result.success = true;
         result.data = response.data;
     } catch(error){
-        result.success = false;
         result.data = error.response.data;
+        return Promise.reject(result);
     }
-    return result;
+    return Promise.resolve(result);
 }
 
 export async function requestResetPassword(email:string):Promise<ApiResponse> {
@@ -104,20 +102,34 @@ export async function resetPassword(code:string,password:string,confirmPassword:
     return Promise.resolve(result);
 }
 
+export async function validateAccount(id:number,token:string):Promise<ApiResponse> {
 
-export async function changePassword(id:number,password:string,
-    newPassword:string):Promise<ApiResponse> {
-
-    var result = new ApiResponse();
+    var result:ApiResponse = {}
+    var obj ={id,token};
    
-    var obj ={id,password,newPassword,ConfirmNewPassword:newPassword};
     try{
-        const response = await axios.post(urls.CHANGE_PASSWORD,obj);
-        result.success = true;
+        const response = await axios.post(urls.VERIFY_ACCOUNT,obj);
         result.data = response.data;
     } catch(error){
-        result.success = false;
         result.data = error.response.data;
+        return Promise.reject(result);
     }
-    return result;
+    return Promise.resolve(result);
 }
+
+export async function resendVerificationToken(id:number):Promise<ApiResponse> {
+
+    var result:ApiResponse = {}
+    var obj ={id};
+   
+    try{
+        const response = await axios.post(urls.RESEND_VERIFICATION_TOKEN,obj);
+        result.data = response.data;
+    } catch(error){
+        result.data = error.response.data;
+        return Promise.reject(result);
+    }
+    return Promise.resolve(result);
+}
+
+
