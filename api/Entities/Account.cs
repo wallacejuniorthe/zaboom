@@ -9,6 +9,7 @@ public class Account
     public string Name { get; set; }
     public string Email { get; set; }
     public string Phone1 { get; set; }
+    public DateTime? Phone1Verified { get; set; }
     public string Cpf { get; set; }
     public string PasswordHash { get; set; }
     public bool AcceptTerms { get; set; }
@@ -18,6 +19,7 @@ public class Account
     public bool IsVerified => Verified.HasValue || PasswordReset.HasValue;
     public string ResetToken { get; set; }
     public DateTime? ResetTokenExpires { get; set; }
+
     public DateTime? PasswordReset { get; set; }
     public DateTime Created { get; set; }
     public DateTime? Updated { get; set; }

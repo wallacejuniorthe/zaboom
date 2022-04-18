@@ -28,6 +28,10 @@ public interface IAccountService
     AccountResponse Create(CreateRequest model);
     AccountResponse Update(int id, UpdateRequest model);
     void Delete(int id);
+    void ChangePassword(ChangePasswordRequest model);
+    void ValidateAccount(ValidateAccountTokenRequest model);
+    void ResendVerificationToken(ResendTokenRequest model);
+
 }
 
 public class AccountService : IAccountService
@@ -37,19 +41,22 @@ public class AccountService : IAccountService
     private readonly IMapper _mapper;
     private readonly AppSettings _appSettings;
     private readonly IEmailService _emailService;
+    private readonly ISmsService _smsService;
 
     public AccountService(
         DataContext context,
         IJwtUtils jwtUtils,
         IMapper mapper,
         IOptions<AppSettings> appSettings,
-        IEmailService emailService)
+        IEmailService emailService,
+        ISmsService smsService)
     {
         _context = context;
         _jwtUtils = jwtUtils;
         _mapper = mapper;
         _appSettings = appSettings.Value;
         _emailService = emailService;
+        _smsService = smsService;
     }
 
     public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
@@ -57,8 +64,22 @@ public class AccountService : IAccountService
         var account = _context.Accounts.SingleOrDefault(x => x.Email == model.Email);
 
         // validate
-        if (account == null || !account.IsVerified || !BCrypt.Verify(model.Password, account.PasswordHash))
+        if (account == null || !BCrypt.Verify(model.Password, account.PasswordHash))
             throw new AppException("Email e/ou senha inválidos");
+
+        if (!account.IsVerified)
+        {
+            CreateVerificationToken(account);
+            _context.Accounts.Update(account);
+            _context.SaveChanges();
+
+            return new AuthenticateResponse()
+            {
+                Id = account.Id,
+                IsVerified = false,
+                Name = account.Name
+            };
+        }
 
         // authentication successful so generate jwt and refresh tokens
         var jwtToken = _jwtUtils.GenerateJwtToken(account);
@@ -71,7 +92,7 @@ public class AccountService : IAccountService
         // save changes to db
         _context.Update(account);
         _context.SaveChanges();
-
+        
         var response = _mapper.Map<AuthenticateResponse>(account);
         response.JwtToken = jwtToken;
         response.RefreshToken = refreshToken.Token;
@@ -130,14 +151,25 @@ public class AccountService : IAccountService
         _context.SaveChanges();
     }
 
+    public void CreateVerificationToken(Account account)
+    {
+        Random random = new Random();
+        var token = random.Next(0, 999999).ToString("D6");
+        account.VerificationToken = token;
+        account.Verified = null;
+//        _smsService.SendMessage(account.Phone1,$"Zaboom: Seu código de verificação é {account.VerificationToken}");
+    }
+
     public RegisterResponse Register(RegisterRequest model, string origin)
     {
         // validate
         if (_context.Accounts.Any(x => x.Email == model.Email))
         {
-            // send already registered error in email to prevent account enumeration
-            //sendAlreadyRegisteredEmail(model.Email, origin);
-            //return;
+            throw new AppException("Já existe uma conta associada a este e-mail");
+        }
+        if (_context.Accounts.Any(x => x.Phone1 == model.Phone1))
+        {
+            throw new AppException("Já existe uma conta associada a este celular");
         }
 
         // map model to new account object
@@ -148,14 +180,16 @@ public class AccountService : IAccountService
 //        account.Role = isFirstAccount ? Role.Admin : Role.User;
         account.Role = Role.User;
         account.Created = DateTime.UtcNow;
-        account.VerificationToken = generateVerificationToken();
+
+        CreateVerificationToken(account);
 
         // hash password
         account.PasswordHash = BCrypt.HashPassword(model.Password);
 
         // TODO: Retirar quando colocar a validação
-        account.Verified = DateTime.Now;
-        
+//        account.Verified = DateTime.Now;
+//        account.Phone1Verified = null;
+
         // save account
         _context.Accounts.Add(account);
         _context.SaveChanges();
@@ -200,17 +234,62 @@ public class AccountService : IAccountService
         _context.SaveChanges();
 
         // send email
-        sendPasswordResetEmail(account, origin);
+        //sendPasswordResetEmail(account, origin);
     }
+
+    public void ValidateAccount(ValidateAccountTokenRequest model)
+    {
+        var account = _context.Accounts.SingleOrDefault(x => x.Id == model.Id && x.VerificationToken == model.Token);
+
+        if (account == null)
+            throw new AppException("Não foi possível verificar sua conta. Verifique o código informado");
+
+        account.Verified = DateTime.UtcNow;
+        _context.Accounts.Update(account);
+        _context.SaveChanges();
+    }
+
+    public void ResendVerificationToken(ResendTokenRequest model)
+    {
+        var account = _context.Accounts.SingleOrDefault(x => x.Id == model.Id);
+
+        if(account == null || account.IsVerified)
+            throw new AppException("Conta não identificada ou já validada");
+
+        CreateVerificationToken(account);
+
+        _context.Accounts.Update(account);
+        _context.SaveChanges();
+    }
+
 
     public void ValidateResetToken(ValidateResetTokenRequest model)
     {
         getAccountByResetToken(model.Token);
     }
 
+    public void ChangePassword(ChangePasswordRequest model)
+    {
+        var account = _context.Accounts.SingleOrDefault(x => x.Id==model.Id);
+        if (account == null || !BCrypt.Verify(model.Password, account.PasswordHash)) 
+            throw new AppException("Senha atual inválida");
+
+        // update password and remove reset token
+        account.PasswordHash = BCrypt.HashPassword(model.NewPassword);
+        account.PasswordReset = DateTime.UtcNow;
+        account.ResetToken = null;
+        account.ResetTokenExpires = null;
+
+        _context.Accounts.Update(account);
+        _context.SaveChanges();
+    }
+
     public void ResetPassword(ResetPasswordRequest model)
     {
-        var account = getAccountByResetToken(model.Token);
+        if (model.Password != model.ConfirmPassword)
+            throw new AppException("As senhas informadas não coincidem");
+
+        var account = getAccountByResetCode(model.Code);
 
         // update password and remove reset token
         account.PasswordHash = BCrypt.HashPassword(model.Password);
@@ -307,6 +386,14 @@ public class AccountService : IAccountService
         return account;
     }
 
+    private Account getAccountByResetCode(string token)
+    {
+        var account = _context.Accounts.SingleOrDefault(x =>
+            x.ResetToken == token && x.ResetTokenExpires > DateTime.UtcNow);
+        if (account == null) throw new AppException("Código inválido");
+        return account;
+    }
+
     private string generateJwtToken(Account account)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -323,15 +410,16 @@ public class AccountService : IAccountService
 
     private string generateResetToken()
     {
-        // token is a cryptographically strong random sequence of values
-        var token = Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        Random random = new Random();
+        var token = random.Next(0, 999999).ToString("D6");
+
 
         // ensure token is unique by checking against db
-        var tokenIsUnique = !_context.Accounts.Any(x => x.ResetToken == token);
+        var tokenIsUnique = !_context.Accounts.Any(x => x.ResetToken == token.ToString());
         if (!tokenIsUnique)
             return generateResetToken();
         
-        return token;
+        return token.ToString();
     }
 
     private string generateVerificationToken()
@@ -449,4 +537,5 @@ public class AccountService : IAccountService
                         {message}"
         );
     }
+
 }

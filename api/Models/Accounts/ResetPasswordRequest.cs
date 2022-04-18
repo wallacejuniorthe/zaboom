@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 public class ResetPasswordRequest
 {
     [Required]
-    public string Token { get; set; }
+    public string Code { get; set; }
 
     [Required]
     [MinLength(6)]

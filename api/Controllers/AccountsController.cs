@@ -36,24 +36,43 @@ public class AccountsController : BaseController
         return Ok(new { message = "Verification successful, you can now login" });
     }
 
-    #endregion
 
+    [AllowAnonymous]
+    [HttpPost("verify-account")]
+    public IActionResult VerifyAccount(ValidateAccountTokenRequest model)
+    {
+        _accountService.ValidateAccount(model);
+        return Ok(new { message = "Verification successful, you can now login" });
+    }
+
+    [AllowAnonymous]
+    [HttpPost("resend-validation-token")]
+    public IActionResult ResendVerificationCode(ResendTokenRequest model)
+    {
+        _accountService.ResendVerificationToken(model);
+        return Ok(new { message = "Um novo token foi gerado" });
+    }
+
+
+    #endregion
 
     [AllowAnonymous]
     [HttpPost("authenticate")]
     public ActionResult<AuthenticateResponse> Authenticate(AuthenticateRequest model)
     {
         var response = _accountService.Authenticate(model, ipAddress());
-        setTokenCookie(response.RefreshToken);
+        
+        if(response.IsVerified)
+            setTokenCookie(response.RefreshToken);
+        
         return Ok(response);
     }
 
     [AllowAnonymous]
     [HttpPost("refresh-token")]
-    public ActionResult<AuthenticateResponse> RefreshToken()
+    public ActionResult<AuthenticateResponse> RefreshToken(RefreshTokenRequest model)
     {
-        var refreshToken = Request.Cookies["refreshToken"];
-        var response = _accountService.RefreshToken(refreshToken, ipAddress());
+        var response = _accountService.RefreshToken(model.RefreshToken, ipAddress());
         setTokenCookie(response.RefreshToken);
         return Ok(response);
     }
@@ -74,12 +93,13 @@ public class AccountsController : BaseController
         _accountService.RevokeToken(token, ipAddress());
         return Ok(new { message = "Token revoked" });
     }
-    [AllowAnonymous]
-    [HttpPost("forgot-password")]
-    public IActionResult ForgotPassword(ForgotPasswordRequest model)
+    
+
+    [HttpPost("change-password")]
+    public IActionResult ChangePassword(ChangePasswordRequest model)
     {
-        _accountService.ForgotPassword(model, Request.Headers["origin"]);
-        return Ok(new { message = "Please check your email for password reset instructions" });
+        _accountService.ChangePassword(model);
+        return Ok(new { message = "Senha alterada com sucesso" });
     }
 
     [AllowAnonymous]
@@ -90,13 +110,26 @@ public class AccountsController : BaseController
         return Ok(new { message = "Token is valid" });
     }
 
+    #region Reseta Password
+
+    [AllowAnonymous]
+    [HttpPost("forgot-password")]
+    public IActionResult ForgotPassword(ForgotPasswordRequest model)
+    {
+        _accountService.ForgotPassword(model, Request.Headers["origin"]);
+        return Ok(new { message = "Please check your email for password reset instructions" });
+    }
+
     [AllowAnonymous]
     [HttpPost("reset-password")]
     public IActionResult ResetPassword(ResetPasswordRequest model)
     {
+
         _accountService.ResetPassword(model);
         return Ok(new { message = "Password reset successful, you can now login" });
     }
+
+    #endregion
 
     [Authorize(Role.Admin)]
     [HttpGet]

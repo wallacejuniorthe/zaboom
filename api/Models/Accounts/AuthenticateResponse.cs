@@ -13,6 +13,6 @@ public class AuthenticateResponse
     public bool IsVerified { get; set; }
     public string JwtToken { get; set; }
 
-    [JsonIgnore] // refresh token is returned in http only cookie
+    [JsonIgnore]
     public string RefreshToken { get; set; }
 }

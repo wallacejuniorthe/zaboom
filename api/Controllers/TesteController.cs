@@ -13,5 +13,12 @@ namespace WebApi.Controllers
         {
             return this.Account.Name;
         }
+        
+        [HttpGet("hello2")]
+        [AllowAnonymous]
+        public String Hello2()
+        {
+            return "teste heloo";
+        }
     }
 }

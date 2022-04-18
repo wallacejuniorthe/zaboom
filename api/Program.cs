@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
     services.AddDbContext<DataContext>();
     services.AddCors();
-    services.AddControllers().AddJsonOptions(x => 
+    services.AddControllers().AddJsonOptions(x =>
     {
         // serialize enums as strings in api responses (e.g. Role)
         x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -29,6 +29,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<IJwtUtils, JwtUtils>();
     services.AddScoped<IAccountService, AccountService>();
     services.AddScoped<IEmailService, EmailService>();
+    services.AddScoped<ISmsService, SmsService>();
     services.AddScoped<CouponService>();
 }
 
