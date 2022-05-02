@@ -10,14 +10,16 @@ namespace WebApi.Entities.Core
         public int Id { get; set; }
         public Partner Partner { get; set; }
         public int PartnerId { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
         public string Regulation { get; set; }
         public int QuantityUsed { get; set; }
-        public int QuantityMaxUse { get; set; }
-        public int QuantityMaxUseUser { get; set; }
+        public int? QuantityMaxUse { get; set; }
+        public int? QuantityMaxUseUser { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime StartAt { get; set; }
         public DateTime? FinishAt { get; set; }
+        public DateTime? UseLimiteDate { get; set; }
         public DateTime? CanceledAt { get; set; }
         public DateTime? LastUse { get; set; }
         
@@ -26,7 +28,8 @@ namespace WebApi.Entities.Core
         {
             get
             {
-                return CanceledAt == null && QuantityUsed < QuantityMaxUse;
+                return CanceledAt == null && QuantityUsed < QuantityMaxUse &&
+                    StartAt <= DateTime.Now && FinishAt > DateTime.Now;
             }
         }
     }
@@ -38,6 +41,7 @@ namespace WebApi.Entities.Core
             builder.ToTable("coupons");
             builder.HasKey(x => x.Id);
             builder.Property(t => t.Description).HasMaxLength(200).IsRequired();
+            builder.Property(t => t.Description).HasMaxLength(500).IsRequired();
             builder.Property(t => t.Regulation).HasMaxLength(5000).IsRequired();
             builder.Property(x => x.CreatedAt).Metadata.SetAfterSaveBehavior(Microsoft.EntityFrameworkCore.Metadata.PropertySaveBehavior.Ignore);
         }

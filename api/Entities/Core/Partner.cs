@@ -24,6 +24,7 @@ namespace WebApi.Entities.Core
         public string City { get; set; }
         public string State { get; set; }
         public string PostalCode { get; set; }
+        public string PictureUrl { get; set; }
 
     }
 
@@ -49,6 +50,8 @@ namespace WebApi.Entities.Core
             builder.Property(t => t.City).HasMaxLength(200).IsRequired();
             builder.Property(t => t.State).HasMaxLength(2).IsRequired();
             builder.Property(t => t.PostalCode).HasMaxLength(20).IsRequired();
+
+            builder.Property(t => t.PictureUrl).HasMaxLength(200).IsRequired();
 
             builder.HasIndex(x => x.Cnpj).IsUnique();
         }

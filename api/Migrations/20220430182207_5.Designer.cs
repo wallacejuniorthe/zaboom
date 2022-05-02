@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.Helpers;
 
@@ -10,9 +11,10 @@ using WebApi.Helpers;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220430182207_5")]
+    partial class _5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.2");
@@ -88,31 +90,31 @@ namespace WebApi.Migrations
                         {
                             Id = 1,
                             AcceptTerms = true,
-                            Created = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7368),
+                            Created = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1886),
                             Email = "User1@teste.com",
                             Name = "User1",
                             PasswordHash = "$2a$11$jurHlZ3Jf1AOIrkKMLcsBueo0JYM8mWVCi6w4QTE9Rx1yKJC2WV/q",
                             Role = 0,
                             VerificationToken = "583422",
-                            Verified = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7355)
+                            Verified = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1874)
                         },
                         new
                         {
                             Id = 2,
                             AcceptTerms = true,
-                            Created = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7371),
+                            Created = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1890),
                             Email = "User2@teste.com",
                             Name = "User2",
                             PasswordHash = "$2a$11$jurHlZ3Jf1AOIrkKMLcsBueo0JYM8mWVCi6w4QTE9Rx1yKJC2WV/q",
                             Role = 0,
                             VerificationToken = "583422",
-                            Verified = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7369)
+                            Verified = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1887)
                         },
                         new
                         {
                             Id = 3,
                             AcceptTerms = true,
-                            Created = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7372),
+                            Created = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1892),
                             Email = "User3@teste.com",
                             Name = "User3",
                             PasswordHash = "$2a$11$jurHlZ3Jf1AOIrkKMLcsBueo0JYM8mWVCi6w4QTE9Rx1yKJC2WV/q",
@@ -123,7 +125,7 @@ namespace WebApi.Migrations
                         {
                             Id = 4,
                             AcceptTerms = true,
-                            Created = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7373),
+                            Created = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1895),
                             Email = "User4@teste.com",
                             Name = "User4",
                             PasswordHash = "$2a$11$jurHlZ3Jf1AOIrkKMLcsBueo0JYM8mWVCi6w4QTE9Rx1yKJC2WV/q",
@@ -134,61 +136,61 @@ namespace WebApi.Migrations
                         {
                             Id = 5,
                             AcceptTerms = true,
-                            Created = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7376),
+                            Created = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1898),
                             Email = "User5@teste.com",
                             Name = "User5",
                             PasswordHash = "$2a$11$jurHlZ3Jf1AOIrkKMLcsBueo0JYM8mWVCi6w4QTE9Rx1yKJC2WV/q",
                             Role = 0,
                             VerificationToken = "583422",
-                            Verified = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7374)
+                            Verified = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1896)
                         },
                         new
                         {
                             Id = 6,
                             AcceptTerms = true,
-                            Created = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7378),
+                            Created = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1901),
                             Email = "User6@teste.com",
                             Name = "User6",
                             PasswordHash = "$2a$11$jurHlZ3Jf1AOIrkKMLcsBueo0JYM8mWVCi6w4QTE9Rx1yKJC2WV/q",
                             Role = 0,
                             VerificationToken = "583422",
-                            Verified = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7376)
+                            Verified = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1899)
                         },
                         new
                         {
                             Id = 7,
                             AcceptTerms = true,
-                            Created = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7380),
+                            Created = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1905),
                             Email = "User7@teste.com",
                             Name = "User7",
                             PasswordHash = "$2a$11$jurHlZ3Jf1AOIrkKMLcsBueo0JYM8mWVCi6w4QTE9Rx1yKJC2WV/q",
                             Role = 0,
                             VerificationToken = "583422",
-                            Verified = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7378)
+                            Verified = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1902)
                         },
                         new
                         {
                             Id = 8,
                             AcceptTerms = true,
-                            Created = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7381),
+                            Created = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1908),
                             Email = "User8@teste.com",
                             Name = "User8",
                             PasswordHash = "$2a$11$jurHlZ3Jf1AOIrkKMLcsBueo0JYM8mWVCi6w4QTE9Rx1yKJC2WV/q",
                             Role = 0,
                             VerificationToken = "583422",
-                            Verified = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7380)
+                            Verified = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1906)
                         },
                         new
                         {
                             Id = 9,
                             AcceptTerms = true,
-                            Created = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7383),
+                            Created = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1911),
                             Email = "User9@teste.com",
                             Name = "User9",
                             PasswordHash = "$2a$11$jurHlZ3Jf1AOIrkKMLcsBueo0JYM8mWVCi6w4QTE9Rx1yKJC2WV/q",
                             Role = 0,
                             VerificationToken = "583422",
-                            Verified = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7382)
+                            Verified = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1909)
                         });
                 });
 
@@ -270,7 +272,7 @@ namespace WebApi.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(500)
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("FinishAt")
@@ -299,9 +301,6 @@ namespace WebApi.Migrations
                     b.Property<DateTime>("StartAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime?>("UseLimiteDate")
                         .HasColumnType("TEXT");
 
@@ -315,161 +314,150 @@ namespace WebApi.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7448),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2090),
                             Description = "Cupom 1 - dewr rewrr rer",
-                            FinishAt = new DateTime(2022, 5, 6, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7436),
+                            FinishAt = new DateTime(2022, 5, 5, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2079),
                             PartnerId = 1,
                             QuantityMaxUse = 50,
                             QuantityMaxUseUser = 1,
                             QuantityUsed = 0,
                             Regulation = "Resulamento xx xx x x",
-                            StartAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7435),
-                            Title = "Cupom 1",
-                            UseLimiteDate = new DateTime(2022, 5, 16, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7445)
+                            StartAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2078),
+                            UseLimiteDate = new DateTime(2022, 5, 15, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2087)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7453),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2101),
                             Description = "Cupom 2 - dewr rewrr rer",
-                            FinishAt = new DateTime(2022, 5, 6, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7452),
+                            FinishAt = new DateTime(2022, 5, 5, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2098),
                             PartnerId = 1,
                             QuantityMaxUse = 50,
                             QuantityMaxUseUser = 5,
                             QuantityUsed = 0,
                             Regulation = "Resulamento xx xx x x",
-                            StartAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7451),
-                            Title = "Cupom 2",
-                            UseLimiteDate = new DateTime(2022, 5, 16, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7452)
+                            StartAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2097),
+                            UseLimiteDate = new DateTime(2022, 5, 15, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2099)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7457),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2107),
                             Description = "Cupom 3 - dewr rewrr rer",
-                            FinishAt = new DateTime(2022, 5, 16, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7455),
+                            FinishAt = new DateTime(2022, 5, 15, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2104),
                             PartnerId = 1,
                             QuantityUsed = 0,
                             Regulation = "Resulamento xx xx x x",
-                            StartAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7455),
-                            Title = "Cupom 3",
-                            UseLimiteDate = new DateTime(2022, 5, 16, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7456)
+                            StartAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2103),
+                            UseLimiteDate = new DateTime(2022, 5, 15, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2105)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7460),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2112),
                             Description = "Cupom 4 - dewr rewrr rer",
-                            FinishAt = new DateTime(2022, 5, 16, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7458),
+                            FinishAt = new DateTime(2022, 5, 15, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2109),
                             PartnerId = 2,
                             QuantityUsed = 0,
                             Regulation = "Resulamento xx xx x x",
-                            StartAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7458),
-                            Title = "Cupom 4",
-                            UseLimiteDate = new DateTime(2022, 5, 16, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7459)
+                            StartAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2109),
+                            UseLimiteDate = new DateTime(2022, 5, 15, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2111)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7463),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2118),
                             Description = "Cupom 5 - dewr rewrr rer",
-                            FinishAt = new DateTime(2022, 4, 29, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7461),
+                            FinishAt = new DateTime(2022, 4, 28, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2115),
                             PartnerId = 2,
                             QuantityMaxUseUser = 1,
                             QuantityUsed = 0,
                             Regulation = "Resulamento xx xx x x",
-                            StartAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7461),
-                            Title = "Cupom 5",
-                            UseLimiteDate = new DateTime(2022, 5, 16, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7462)
+                            StartAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2114),
+                            UseLimiteDate = new DateTime(2022, 5, 15, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2116)
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7466),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2422),
                             Description = "Cupom 6 - dewr rewrr rer",
-                            FinishAt = new DateTime(2022, 4, 29, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7465),
+                            FinishAt = new DateTime(2022, 4, 28, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2420),
                             PartnerId = 2,
                             QuantityMaxUse = 50,
                             QuantityUsed = 0,
                             Regulation = "Resulamento xx xx x x",
-                            StartAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7464),
-                            Title = "Cupom 6",
-                            UseLimiteDate = new DateTime(2022, 5, 16, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7465)
+                            StartAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2419),
+                            UseLimiteDate = new DateTime(2022, 5, 15, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2421)
                         },
                         new
                         {
                             Id = 7,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7469),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2475),
                             Description = "Cupom 7 - dewr rewrr rer",
-                            FinishAt = new DateTime(2022, 4, 29, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7468),
+                            FinishAt = new DateTime(2022, 4, 28, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2472),
                             PartnerId = 3,
                             QuantityMaxUse = 50,
                             QuantityMaxUseUser = 1,
                             QuantityUsed = 0,
                             Regulation = "Resulamento xx xx x x",
-                            StartAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7467),
-                            Title = "Cupom 7",
-                            UseLimiteDate = new DateTime(2022, 5, 16, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7468)
+                            StartAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2471),
+                            UseLimiteDate = new DateTime(2022, 5, 15, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2473)
                         },
                         new
                         {
                             Id = 8,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7474),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2480),
                             Description = "Cupom 8 - dewr rewrr rer",
-                            FinishAt = new DateTime(2022, 5, 6, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7472),
+                            FinishAt = new DateTime(2022, 5, 5, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2478),
                             PartnerId = 3,
                             QuantityMaxUse = 50,
                             QuantityMaxUseUser = 1,
                             QuantityUsed = 0,
                             Regulation = "Resulamento xx xx x x",
-                            StartAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7471),
-                            Title = "Cupom 8",
-                            UseLimiteDate = new DateTime(2022, 5, 16, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7472)
+                            StartAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2477),
+                            UseLimiteDate = new DateTime(2022, 5, 15, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2479)
                         },
                         new
                         {
                             Id = 9,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7477),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2489),
                             Description = "Cupom 9 - dewr rewrr rer",
-                            FinishAt = new DateTime(2022, 5, 6, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7475),
+                            FinishAt = new DateTime(2022, 5, 5, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2483),
                             PartnerId = 3,
                             QuantityMaxUse = 50,
                             QuantityMaxUseUser = 1,
                             QuantityUsed = 0,
                             Regulation = "Resulamento xx xx x x",
-                            StartAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7474),
-                            Title = "Cupom 9",
-                            UseLimiteDate = new DateTime(2022, 5, 16, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7476)
+                            StartAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2482),
+                            UseLimiteDate = new DateTime(2022, 5, 15, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2484)
                         },
                         new
                         {
                             Id = 10,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7480),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2494),
                             Description = "Cupom 10 - dewr rewrr rer",
-                            FinishAt = new DateTime(2022, 5, 6, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7478),
+                            FinishAt = new DateTime(2022, 5, 5, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2492),
                             PartnerId = 4,
                             QuantityMaxUse = 50,
                             QuantityMaxUseUser = 1,
                             QuantityUsed = 0,
                             Regulation = "Resulamento xx xx x x",
-                            StartAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7478),
-                            Title = "Cupom 10",
-                            UseLimiteDate = new DateTime(2022, 5, 16, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7479)
+                            StartAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2491),
+                            UseLimiteDate = new DateTime(2022, 5, 15, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2493)
                         },
                         new
                         {
                             Id = 11,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7483),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2499),
                             Description = "Cupom 11 - dewr rewrr rer",
-                            FinishAt = new DateTime(2022, 5, 6, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7481),
+                            FinishAt = new DateTime(2022, 5, 5, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2497),
                             PartnerId = 4,
                             QuantityMaxUse = 50,
                             QuantityMaxUseUser = 1,
                             QuantityUsed = 0,
                             Regulation = "Resulamento xx xx x x",
-                            StartAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7481),
-                            Title = "Cupom 11",
-                            UseLimiteDate = new DateTime(2022, 5, 16, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7482)
+                            StartAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2496),
+                            UseLimiteDate = new DateTime(2022, 5, 15, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2498)
                         });
                 });
 
@@ -502,49 +490,49 @@ namespace WebApi.Migrations
                         {
                             Id = 1,
                             CouponId = 1,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7505),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2542),
                             ParticipantId = 1
                         },
                         new
                         {
                             Id = 2,
                             CouponId = 1,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7507),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2545),
                             ParticipantId = 2
                         },
                         new
                         {
                             Id = 3,
                             CouponId = 1,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7508),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2547),
                             ParticipantId = 3
                         },
                         new
                         {
                             Id = 4,
                             CouponId = 2,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7509),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2549),
                             ParticipantId = 1
                         },
                         new
                         {
                             Id = 5,
                             CouponId = 3,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7510),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2551),
                             ParticipantId = 1
                         },
                         new
                         {
                             Id = 6,
                             CouponId = 4,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7511),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2552),
                             ParticipantId = 1
                         },
                         new
                         {
                             Id = 7,
                             CouponId = 5,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7512),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2554),
                             ParticipantId = 1
                         });
                 });
@@ -559,9 +547,6 @@ namespace WebApi.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("ActivatedDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Code")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("CouponId")
@@ -693,7 +678,7 @@ namespace WebApi.Migrations
                             City = "Teresina",
                             Cnpj = "123456",
                             Contact = "Contato",
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7328),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1826),
                             District = "Bairro",
                             Email = "Participant1@teste.com",
                             Name = "Participant1",
@@ -709,7 +694,7 @@ namespace WebApi.Migrations
                             City = "Teresina",
                             Cnpj = "1234567",
                             Contact = "Contato",
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7332),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1835),
                             District = "Bairro",
                             Email = "Participant2@teste.com",
                             Name = "Participant2",
@@ -725,7 +710,7 @@ namespace WebApi.Migrations
                             City = "Teresina",
                             Cnpj = "1234568",
                             Contact = "Contato",
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7334),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1839),
                             District = "Bairro",
                             Email = "Participant3@teste.com",
                             Name = "Participant3",
@@ -741,7 +726,7 @@ namespace WebApi.Migrations
                             City = "Teresina",
                             Cnpj = "12345699",
                             Contact = "Contato",
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7335),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1841),
                             District = "Bairro",
                             Email = "Participant4@teste.com",
                             Name = "Participant4",
@@ -781,63 +766,63 @@ namespace WebApi.Migrations
                         {
                             Id = 1,
                             AccountId = 1,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7405),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2025),
                             ParticipantId = 1
                         },
                         new
                         {
                             Id = 2,
                             AccountId = 2,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7407),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2028),
                             ParticipantId = 1
                         },
                         new
                         {
                             Id = 3,
                             AccountId = 3,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7409),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2030),
                             ParticipantId = 1
                         },
                         new
                         {
                             Id = 4,
                             AccountId = 4,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7410),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2032),
                             ParticipantId = 2
                         },
                         new
                         {
                             Id = 5,
                             AccountId = 5,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7411),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2033),
                             ParticipantId = 2
                         },
                         new
                         {
                             Id = 6,
                             AccountId = 6,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7412),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2035),
                             ParticipantId = 2
                         },
                         new
                         {
                             Id = 7,
                             AccountId = 7,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7413),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2037),
                             ParticipantId = 3
                         },
                         new
                         {
                             Id = 8,
                             AccountId = 8,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7414),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2039),
                             ParticipantId = 3
                         },
                         new
                         {
                             Id = 9,
                             AccountId = 9,
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7415),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(2041),
                             ParticipantId = 3
                         });
                 });
@@ -944,7 +929,7 @@ namespace WebApi.Migrations
                             City = "Teresina",
                             Cnpj = "123456",
                             Contact = "Contato",
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7244),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1748),
                             District = "Bairro",
                             Email = "Empresa1@teste.com",
                             Name = "Empresa1",
@@ -961,7 +946,7 @@ namespace WebApi.Migrations
                             City = "Teresina",
                             Cnpj = "1234567",
                             Contact = "Contato",
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7262),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1778),
                             District = "Bairro",
                             Email = "Empresa2@teste.com",
                             Name = "Empresa2",
@@ -978,7 +963,7 @@ namespace WebApi.Migrations
                             City = "Teresina",
                             Cnpj = "1234568",
                             Contact = "Contato",
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7265),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1780),
                             District = "Bairro",
                             Email = "Empresa3@teste.com",
                             Name = "Empresa3",
@@ -995,7 +980,7 @@ namespace WebApi.Migrations
                             City = "Teresina",
                             Cnpj = "12345699",
                             Contact = "Contato",
-                            CreatedAt = new DateTime(2022, 5, 1, 21, 13, 17, 865, DateTimeKind.Local).AddTicks(7266),
+                            CreatedAt = new DateTime(2022, 4, 30, 15, 21, 45, 781, DateTimeKind.Local).AddTicks(1783),
                             District = "Bairro",
                             Email = "Empresa4@teste.com",
                             Name = "Empresa4",

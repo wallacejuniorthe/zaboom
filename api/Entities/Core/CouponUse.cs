@@ -11,8 +11,9 @@ namespace WebApi.Entities.Core
         public int CouponId { get; set; }
         public Account Account { get; set; }
         public int AccountId { get; set; }
-        public bool Activate { get; set; }
-        public bool Used { get; set; }
+        public string? Code { get; set; }
+        public DateTime ActivatedDate { get; set; }
+        public DateTime? UseDate { get; set; }
     }
 
     public class CouponUserConfiguration : IEntityTypeConfiguration<CouponUser>
@@ -21,7 +22,6 @@ namespace WebApi.Entities.Core
         {
             builder.ToTable("coupons_users");
             builder.HasKey(x => x.Id);
-            builder.HasIndex(x => new { x.CouponId, x.AccountId }).IsUnique();
         }
 
 
