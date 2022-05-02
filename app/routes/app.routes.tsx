@@ -29,9 +29,9 @@ function BottomTabNavigator() {
         name="Coupon"
         component={CouponScreen}
         options={{
-          title: 'Meus cupons',
+          title: 'Cupons disponíveis',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerShown: false
+          headerShown: true
         }} 
       />
       <BottomTab.Screen
@@ -79,7 +79,7 @@ const AppStack = createNativeStackNavigator();
 
 const AppRoutes = () => (
   <AppStack.Navigator >
-    <AppStack.Screen name="Root" component={BottomTabNavigator}  options={{ headerShown: false}} />
+    <AppStack.Screen name="Root" component={BottomTabNavigator}   options={{ headerShown: false}} />
     <AppStack.Screen name="ChangePassword" component={ChangePasswordScreen}  options={{ title:"Alterar senha"}}  />
     <AppStack.Screen name="CouponDetail" component={CouponDetailScreen}  options={{ title:"Cupom XX"}}  />
   </AppStack.Navigator>

@@ -31,7 +31,7 @@ export type RootTabParamList = {
   Coupon: undefined;
   CouponActived: undefined;
   Config: undefined;
-  CouponDetail: undefined;
+  CouponDetail: {id:number};
   Login: {successMessageParam?:string};
   Register: undefined;
   Registered: {id?: number,name?:string}

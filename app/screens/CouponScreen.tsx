@@ -3,47 +3,56 @@ import { StyleSheet,ScrollView,SafeAreaView,FlatList,TouchableOpacity,Image } fr
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-import {data} from '../data/data.js';
+import { urls } from '../constants/Urls';
 import { useAuth } from '../hooks/authContext';
 import { apiGet } from '../services/apiService';
-import { ApiResponse } from '../types';
+import { getUserCoupons } from '../services/coupomService';
+import {DefaultStyles} from '../styles/styles'
 
 export default function CouponScreen({ navigation }: RootTabScreenProps<'Coupon'>) {
 
-  const {signed,user, loading,signOut,incrementCounter,checkAuth} = useAuth();
+  const {signed,user, loading,signOut,checkAuth} = useAuth();
   const [selectedId, setSelectedId] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
+  const [data, setData] = useState([]);
 
+  
+  async function fetchData(){
+    console.log('getCoupons');
+    await getUserCoupons().
+    then((result)=>{
+      setData(result.data);
+      console.log(data);
+    })
+    .catch((error)=>{
+      console.log(error);
+
+    });
+  }
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("tabPress", () => {
       checkAuth();
-      console.log('1');
     });
-    console.log('12');
-
-    });
+    fetchData();
+  },[]);
 
   const onRefresh = () => {
-    //setIsFetching(true);
+
     checkAuth();
+    setIsFetching(true);
+    fetchData();
 
-    apiGet('http://192.168.100.66:8080/teste/hello')
-    .then((res1)=>{
-      console.log(res1.data);
-    }).catch((error)=>{
-      //console.log(error);
-    });
-
-    //setIsFetching(false);
+    setIsFetching(false);
   };
 
   const selectItem = (item) => {
-    navigation.setOptions({
+
+/*    navigation.setOptions({
       title: `Your Updated Title`,
-    })
+    })*/
     navigation.navigate('CouponDetail',{itemId:item.id});
-    console.log("Clicou...." + item.id);
+    //console.log("Clicou...." + item.id);
   };
 
   
@@ -56,14 +65,15 @@ export default function CouponScreen({ navigation }: RootTabScreenProps<'Coupon'
                   flexDirection: "row"
               }]} >
                 <View style={{ flex: 1}}>
-                  <Image source={require('../assets/images/americanas.png')} 
+                  <Image source={{uri:item.partner.pictureUrl}} 
                         style={{height:50,width:50, aspectRatio:1}}
                        />
                 </View>
                 <View style={{ flex: 5,flexDirection:"column" }} >
-                  <Text style={styles.partner}>{item.id} {item.partner}</Text>
+                  <Text style={styles.partner}>{item.partner.name}</Text>
+                  <Text style={styles.title}>{item.title}</Text>
                   <Text style={styles.description}>{item.description}</Text>
-                  <Text style={styles.detail}>{item.title}</Text>
+                  <Text style={styles.finishAt}>{"Válido até "}{item.finishAt}</Text>
                 </View>
           </View>
         </TouchableOpacity>
@@ -80,7 +90,7 @@ export default function CouponScreen({ navigation }: RootTabScreenProps<'Coupon'
         onEndReached={()=>console.log("Chegou aom fim")}
         refreshing={isFetching}
         onRefresh={onRefresh}
-        ListEmptyComponent={<EditScreenInfo path='ieouiouwe' />}
+        ListEmptyComponent={<EditScreenInfo path='ieouiouwe oooooo' />}
       />
   </SafeAreaView>  );
 }
@@ -88,13 +98,24 @@ export default function CouponScreen({ navigation }: RootTabScreenProps<'Coupon'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop:80,
     backgroundColor:"#fff"
   },
   title: {
-    fontSize: 20,
+    fontSize: 12,
     fontWeight: 'bold',
+    marginTop:5,
+    marginBottom:2
   },
+  description: {
+    fontSize:11,
+    marginTop:2,
+    marginBottom:2
+  },
+  finishAt: {
+    fontSize:11,
+    marginTop:3,
+  },
+
   separator: {
     marginVertical: 30,
     height: 1,
@@ -105,7 +126,8 @@ const styles = StyleSheet.create({
     padding:5,
     borderBottomColor:'#f1f1f1',
     borderBottomWidth:1,
-    marginBottom:5
+    marginBottom:5,
+    paddingTop:10
   },
   stretch: {
     width: 50,

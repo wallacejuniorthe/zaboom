@@ -9,6 +9,9 @@ export const urls = {
   FORGET_PASSWORD:`${BASEURL}/accounts/forgot-password`,
   RESET_PASSWORD:`${BASEURL}/accounts/reset-password`,
   CHANGE_PASSWORD:`${BASEURL}/accounts/change-password`,
-  REFRESH_TOKEN:`${BASEURL}/accounts/refresh-token`
+  REFRESH_TOKEN:`${BASEURL}/accounts/refresh-token`,
+  COUPONS_USER:`${BASEURL}/coupon/available-coupons`,
+  COUPON_DETAIL:`${BASEURL}/coupon/detail`,
+  COUPON_ACTIVATE:`${BASEURL}/coupon/activate-coupon`
   
 };

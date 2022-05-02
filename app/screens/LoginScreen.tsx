@@ -43,7 +43,7 @@ export default function LoginScreen({ route, navigation }) {
       signOut();
     });
 
-    setEmail("teste@teste.com");
+    setEmail("User1@teste.com");
     setPassword("123456");
 
     return unsubscribe;
